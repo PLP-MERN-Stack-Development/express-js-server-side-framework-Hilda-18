@@ -1,0 +1,29 @@
+### GET all products
+GET http://localhost:3000/api/products
+
+### GET one product
+GET http://localhost:3000/api/products/1
+
+### POST new product
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+  "name": "Tablet",
+  "description": "Lightweight 10-inch tablet",
+  "price": 300,
+  "category": "electronics",
+  "inStock": true
+}
+
+### PUT update product
+PUT http://localhost:3000/api/products/2
+Content-Type: application/json
+
+{
+  "price": 900,
+  "inStock": false
+}
+
+### DELETE product
+DELETE http://localhost:3000/api/products/3

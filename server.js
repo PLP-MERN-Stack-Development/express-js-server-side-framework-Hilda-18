@@ -5,12 +5,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 
-// Initialize Express app
+const logger = require('./middlewares/logger');
+const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/errorHandler');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+// Middlewares
+app.use(bodyParser.json());
+
+// Routes are imported once later with the correct casing to avoid duplicate imports
+// (removed earlier duplicate import here)
+
+
+// Initialize Express app
+// app and PORT already declared above; removed duplicate declarations
+
 // Middleware setup
 app.use(bodyParser.json());
+
+// Custom middlewares
+app.use(logger);  //  Logs requests
+app.use(auth);    //  Checks for API key
+app.use(errorHandler); //  Handles errors
 
 // Sample in-memory products database
 let products = [
@@ -57,9 +76,12 @@ app.get('/api/products', (req, res) => {
   res.json(products);
 });
 
+const productRoutes = require('./Routes/Products');
+app.use('/api/products', productRoutes);
+
+
 // TODO: Implement custom middleware for:
-// - Request logging
-// - Authentication
+// routes already registered above
 // - Error handling
 
 // Start the server
